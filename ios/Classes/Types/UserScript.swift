@@ -10,8 +10,21 @@ import WebKit
 
 public class UserScript : WKUserScript {
     var groupName: String?
+    
+    private var contentWorldWrapper: Any?
     @available(iOS 14.0, *)
-    lazy var contentWorld: WKContentWorld = WKContentWorld.page
+    var contentWorld: WKContentWorld {
+      get {
+        if contentWorldWrapper == nil {
+            contentWorldWrapper = WKContentWorld.page
+        }
+        return contentWorldWrapper as! WKContentWorld
+      }
+      set {
+        contentWorldWrapper = newValue
+      }
+    }
+
     
     public override init(source: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool) {
         super.init(source: source, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly)
